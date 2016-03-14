@@ -6,7 +6,6 @@ namespace App\Factory;
 
 class DB extends \PDO
 {
-//    protected static $instance;
 
     /**
      * DB constructor.
@@ -23,12 +22,4 @@ class DB extends \PDO
         parent::__construct($dsn, $usr, $pwd);
     }
 
-//    public static function __callStatic($name, $arguments)
-//    {
-//        if( !self::$instance ) {
-//            self::$instance = new self();
-//        }
-//
-//        return self::$pdo->{$name}($arguments);
-//    }
 }
