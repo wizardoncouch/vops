@@ -5,6 +5,7 @@ namespace App\Controllers;
 
 
 use App\Factory\DB;
+use App\Factory\JWTAuth;
 
 class HomeController extends Controller
 {
@@ -18,12 +19,19 @@ class HomeController extends Controller
     public function index($request, $response)
     {
         try {
-            $stmt = $this->db->query('SELECT * from `Logins` WHERE `id`=11');
-            $result = $stmt->fetch(DB::FETCH_ASSOC);
-
-            return $this->xhr($response, $result, 200);
+            $credentials = [
+                'username' => 'alexc@verticalops.com',
+                'password' => '0-sum!',
+                'active' => 1,
+                'deleted' => 0
+            ];
+            $result = JWTAuth::attempt($credentials);
+//            var_dump(\Firebase\JWT\JWT::decode($result, getenv('API_KEY'), [getenv('JWT_ALG')]));
+//            die();
+            return $this->xhr($response, $result);
         } catch (\PDOException $e) {
-            return $this->xhr($response, $e->getMessage(), 500);
+            header('HTTP/1.0 500 Internal Server Error');
+            die($e->getMessage());
         }
 
     }
